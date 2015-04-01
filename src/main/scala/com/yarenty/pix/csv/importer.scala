@@ -1,4 +1,4 @@
-package com.yarenty.csv
+package com.yarenty.pix.csv
 
 import com.github.tototoshi.csv._
 import java.sql.DriverManager
@@ -35,7 +35,7 @@ object importer {
     pixTypes.foreach(f =>
       l += (in.get(f).get).replace("\"", "\\\""))
 
-    val sql = "INSERT INTO products (" + myTypes.mkString(",") +
+    val sql = "INSERT INTO temp_products (" + myTypes.mkString(",") +
       ") VALUES ( " + "\"" + l.mkString("\",\"") + "\")"
     //println(sql)
 
@@ -52,11 +52,11 @@ object importer {
     val full = reader.allWithHeaders
 
     // create database connection
-    val dbc = "jdbc:mysql://localhost:3306/cdcol?user=root&password="
+    val dbc = "jdbc:mysql://localhost:3306/eshop?user=root&password="
     Class.forName("com.mysql.jdbc.Driver")
     val conn = DriverManager.getConnection(dbc)
-    val statement = conn.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE)
-
+  //  val statement = conn.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE)
+    
     // do database insert
     try {
       full.foreach(fields => processFields(fields, conn))
